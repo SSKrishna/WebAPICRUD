@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="../../Scripts/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnGetCountries").click(function () {
+                $.ajax({
+                    type: "GET",
+                    url: "http://localhost:55396/Api/Persons/GetCounties",
+                    dataType: "json",
+                    success: function (responsedata) {
+                        $.each(responsedata, function (i, item) {
+                            $("#ddlCountries").append("<option value=" + item + ">" + item + "</option>");
+
+                        });
+                    },
+                    error: function (error, statuscode, message) { }
+
+                });
+            });
+
+            $("#ddlCountries").change(function () {
+                var cname = $("#ddlCountries:selected").text();
+                //var cname = "USA";
+                $.ajax({
+                    type: "GET",
+                    url: "http://localhost:55396/Api/Persons/GetStates?cname=" + cname,
+                    //data: "cname =" + $("#ddlCountries:selected").val(),
+                    // data: "cname ="+"USA",
+                    //dataType: "json",
+                    success: function (result) {
+
+                        $("#ddlstates").empty();
+                        $.each(result, function (i, result) {
+                            console.log(result)
+                            $("#ddlstates").append('<option value=' + result + '>' + result + '</option>');
+
+                        });
+
+                    },
+                    error: function (req, status, error) {
+                        alert(error + "" + req);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div>
+        Countries <select id="ddlCountries">
+            <option value="value">Select</option>
+        </select>
+        <br />
+        <input type="button" id="btnGetCountries" value="GetCounties" />
+        <br />
+        States<select id="ddlstates">
+            <option value="value">Select</option>
+        </select>
+    </div>
+</body>
+</html>

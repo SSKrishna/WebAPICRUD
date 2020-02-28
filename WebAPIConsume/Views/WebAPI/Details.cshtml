@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="../../Scripts/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+        function GetPerson() {
+             var id = $('#perid').val();
+            $.ajax({
+                url: 'http://localhosthttp:55396/Api/Persons/GetPerson' + id,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    ShowPerson(data);
+                }
+            });
+         function ShowPerson(Person) {                   
+                strResult += "<table><tr><td>" + Person.ID + "</td><td> " + Person.Name + "</td><td>" + Person.Address + "</td></tr>";
+                strResult += "</table>";
+                $("#divResult").html(strResult);        
+            
+         }
+    </script>
+    </head>
+<body>
+    <div>
+        <table>
+            <tr>
+                <td>Enter Person Id:<input type="text" id="perid" /></td>
+                <td><button onclick="GetPerson();return false;">Get Person</button></td>                
+            </tr>
+        </table>
+    </div>
+    <div>
+        <h3>Output of action done through WEB API:</h3>
+        <ol class="round">
+            <li>
+                <div id="divResult"></div>
+
+            </li>
+        </ol>
+    </div>
+</body>
+</html>
